@@ -1,14 +1,10 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { Routes } from 'react-router-dom'
+import { routesList, createRoute } from './router/index'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      {count + 1}
-      <button onClick={() => setCount(10)}>++</button>
+    <div id="app">
+      <Routes>{ createRoute(routesList) }</Routes>
     </div>
   )
 }
