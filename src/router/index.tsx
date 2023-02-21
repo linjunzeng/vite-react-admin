@@ -1,65 +1,97 @@
-import { ReactNode, lazy } from 'react'
-import { Route } from 'react-router-dom'
+import { ReactNode } from 'react'
+import { useRoutes, Navigate } from 'react-router-dom'
+import Guard from '@/router/routerGuard'
 
 import Home from '../views/Home'
 import About from '../views/About'
 import Goods from '../views/goods/index'
 import Create from '../views/goods/Create'
 import Detail from '../views/goods/Detail'
+import List from '../views/goods/List'
+
+export type tRouteInfoItem = {
+    path: string
+    component: () => JSX.Element
+    element?: ReactNode
+    meta?: any
+    children?: tRouteInfoItem[]
+}
 
 export type tRoute = {
     path: string
     element: ReactNode
-    match?: any
+    meta?: any
     children?: tRoute[]
 }
 
-export const routesList:tRoute[] = [
+// 路由数据数组
+export const routesList:tRouteInfoItem[] = [
     {
         path: '/',
-        element: <Home/>,
-        match: {
+        component: Home,
+        meta: {
             title: '首页'
         }
     },
     {
         path: '/about',
-        element: <About/>,
-        match: {
+        component: About,
+        meta: {
             title: '关于我们'
         }
     },
     {
         path: '/goods',
-        element: <Goods/>,
-        match: {
+        component: Goods,
+        meta: {
             title: '商品'
         },
         children: [   
             {
                 path: ':id',
-                element: <Detail/>,
-                match: {
+                component: Detail,
+                meta: {
                     title: '商品详情'
                 }
             },
             {
                 path: 'create',
-                element: <Create/>,
-                match: {
+                component: Create,
+                meta: {
                     title: '新建商品'
+                }
+            },
+            {
+                path: 'list',
+                component: List,
+                meta: {
+                    title: '商品列表'
                 }
             }
         ]
     }
 ]
 
-export function createRoute(routesList:tRoute[]){
-    return routesList.map(({ path, element, children }: tRoute) => {
-        return (
-            <Route path={path} element={element} key={path}>
-                { children && children.length && createRoute(children)}
-            </Route>
-        )
+// 处理路由信息
+export function handlerRoute(routesList:tRouteInfoItem[]){
+    return routesList.map((routesItem:tRouteInfoItem) => {
+        const {path, component, children, meta} = routesItem
+        let route:tRoute = {
+            path,
+            element: <Guard route={routesItem}><routesItem.component /></Guard>,
+            meta
+        }
+
+        if(children){
+            route.children = handlerRoute(children)
+        }
+
+        return route
     })
+}
+
+Guard
+// 生成路由 Route
+export function Router(){
+    return useRoutes(handlerRoute(routesList))
 }
