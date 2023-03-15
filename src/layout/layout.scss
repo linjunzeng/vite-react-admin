@@ -1,0 +1,29 @@
+.rc-layout {
+    height: 100vh;
+    overflow: hidden;
+
+    .rc-layout-header {
+        border-bottom: solid 1px rgba(0, 0, 0, .2);
+        background-color: #fff
+    }
+
+    .rc-layout-content {
+        padding: 16px;
+        background-color: #fff
+    }
+
+    .rc-layout-footer {
+        border-top: solid 1px rgba(0, 0, 0, .2);
+        text-align: center;
+        background-color: #fff
+    }
+
+    .rc-logo {
+        padding: 16px;
+        text-align: center;
+
+        img {
+            width: 30%;
+        }
+    }
+}

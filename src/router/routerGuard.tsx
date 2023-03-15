@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { tRouteInfoItem } from '@/router'
 import { useLocation, useNavigate, Navigate} from "react-router-dom";
 import { findIntersection } from '@/utils'
@@ -11,10 +11,6 @@ export default function Guard(props: {route: tRouteInfoItem, children: ReactNode
     const { title, isLogin, auth} = meta
     const navigate = useNavigate()
     const { pathname } = useLocation()
-    console.log('---------------')
-    console.log(props);
-    console.log(location)
-
 
     // 非完整路由默认重定向 第一个子路由 
     if(children.length !== 0 && pathname.split('/').reverse()[0] === path.replace('/', '')){
@@ -25,7 +21,6 @@ export default function Guard(props: {route: tRouteInfoItem, children: ReactNode
     if(children.length !== 0){
         return <div>{props.children}</div>
     }
-    
     
     // 登录
     if(isLogin && token === ''){

@@ -1,9 +1,14 @@
 import { Router } from '@/router/index'
+import Layout from '@/layout'
+
+import '@/App.css'
 
 function App() {
   return (
     <div id="app">
-      <Router />
+      <Layout>
+        <Router />
+      </Layout>
     </div>
   )
 }

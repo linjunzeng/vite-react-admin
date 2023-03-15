@@ -35,7 +35,7 @@ export type tRoute = {
 }
 
 // 路由数据数组
-export const routesList:tRouteInfoItem[] = [
+export const routesList: tRouteInfoItem[] = [
     {
         path: '/',
         component: Home,
@@ -55,8 +55,7 @@ export const routesList:tRouteInfoItem[] = [
         path: '/about',
         component: About,
         meta: {
-            title: '关于我们',
-            auth: ['j']
+            title: '关于我们'
         }
     },
     {
@@ -65,7 +64,7 @@ export const routesList:tRouteInfoItem[] = [
         meta: {
             title: '商品'
         },
-        children: [   
+        children: [
             {
                 path: 'list',
                 component: List,
@@ -107,23 +106,23 @@ export const routesList:tRouteInfoItem[] = [
 ]
 
 // 处理路由信息
-export function handlerRoute(routesList:tRouteInfoItem[]){
-    return routesList.map((routesItem:tRouteInfoItem) => {
-        const {path, component, children, meta} = routesItem
-        const { title = '', isLogin = true, auth = ''} = meta
-        
+export function handlerRoute(routesList: tRouteInfoItem[]) {
+    return routesList.map((routesItem: tRouteInfoItem) => {
+        const { path, component, children, meta } = routesItem
+        const { title = '', isLogin = true, auth = '' } = meta
+
         // 路由信息设置默认值
         meta.title = title
         meta.isLogin = isLogin
         meta.auth = auth
 
-        let route:tRoute = {
+        let route: tRoute = {
             path,
             element: <Guard route={routesItem}><routesItem.component /></Guard>,
             meta: meta as tRoute['meta']
         }
 
-        if(children){
+        if (children) {
             route.children = handlerRoute(children)
         }
 
@@ -132,6 +131,6 @@ export function handlerRoute(routesList:tRouteInfoItem[]){
 }
 
 // 生成路由 Route
-export function Router(){
+export function Router() {
     return useRoutes(handlerRoute(routesList))
 }
