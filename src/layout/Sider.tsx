@@ -38,8 +38,6 @@ export default function Header() {
 
     return (<div>
         <Menu
-            defaultSelectedKeys={['goodsAdd']}
-            defaultOpenKeys={['goods']}
             mode="inline"
             theme="dark"
             items={items}

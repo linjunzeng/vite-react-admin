@@ -14,6 +14,7 @@ import NotFound from '../views/NotFound'
 
 export type tRouteInfoItem = {
     path: string
+    redirect?: string
     component: () => JSX.Element
     meta: {
         title: string
@@ -25,6 +26,7 @@ export type tRouteInfoItem = {
 
 export type tRoute = {
     path: string
+    redirect?: string
     element: ReactNode
     meta: {
         title: string
@@ -38,6 +40,14 @@ export type tRoute = {
 export const routesList: tRouteInfoItem[] = [
     {
         path: '/',
+        redirect: 'home',
+        component: Home,
+        meta: {
+            title: '首页'
+        }
+    },
+    {
+        path: '/home',
         component: Home,
         meta: {
             title: '首页'
@@ -108,7 +118,8 @@ export const routesList: tRouteInfoItem[] = [
 // 处理路由信息
 export function handlerRoute(routesList: tRouteInfoItem[]) {
     return routesList.map((routesItem: tRouteInfoItem) => {
-        const { path, component, children, meta } = routesItem
+
+        const { path, redirect = '', component, children = [], meta } = routesItem
         const { title = '', isLogin = true, auth = '' } = meta
 
         // 路由信息设置默认值
@@ -118,6 +129,7 @@ export function handlerRoute(routesList: tRouteInfoItem[]) {
 
         let route: tRoute = {
             path,
+            redirect,
             element: <Guard route={routesItem}><routesItem.component /></Guard>,
             meta: meta as tRoute['meta']
         }
